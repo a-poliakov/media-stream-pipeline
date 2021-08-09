@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: video-processor-service
+  main:
+    allow-bean-definition-overriding: true
+
+cluster:
+  service:
+    id: override_me_at_startup
+    type: video-processor
+
+ignite:
+  thread-pool:
+    service:
+      size: 5
+    cache:
+      size: 8
+    public:
+      size: 10
+
+  discovery:
+    type: tcp
+    tcp:
+      port: 47500
+      port-range: 20
+      address: 127.0.0.1:47500..47520
+    zookeeper:
+      address: 127.0.0.1:2181
+
+  call_sid_to_call_options:
+    persistence:
+      enabled: true
+    cache:
+      mode: REPLICATED
+    atomicity:
+      mode: TRANSACTIONAL
+    backup:
+      factor: 2
+
+processor:
+  recognize:
+    face:
+      absolute-face-size: 0

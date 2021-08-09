@@ -1,0 +1,16 @@
+kafka:
+  server: loalhost:9092
+  group:
+    id: server.broadcast
+  producer:
+    id: producer-rtp-1
+
+spring:
+  data:
+    cassandra:
+      cluster-name: test-cluster
+      keyspace-name: streamrtpkeyspace
+      port: 9042
+      localDatacenter: 127.0.0.1
+      contact-points:
+        - 127.0.0.1
