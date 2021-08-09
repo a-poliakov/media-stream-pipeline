@@ -1,0 +1,6 @@
+**/target/
+/.idea/
+**/.idea/
+/out/cassandra_data/
+/zk-single-kafka-single/
+**/*.iml
