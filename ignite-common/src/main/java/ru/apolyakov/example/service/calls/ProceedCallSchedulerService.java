@@ -57,7 +57,7 @@ public class ProceedCallSchedulerService implements Service {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("proceedCallsService", proceedCallsService);
 
-        JobDetail proceedActiveCallsJob = newJob(ProceedCallsJob.class)
+        JobDetail proceedActiveCallsJob = newJob(ProceedBatchCallsJob.class)
                 .withIdentity("proceed_calls_job", "proceed_calls_group")
                 .setJobData(jobDataMap)
                 .build();

@@ -1,7 +1,6 @@
 package ru.apolyakov.example.service.streamer;
 
 import com.google.common.collect.Maps;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ignite.Ignite;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import ru.apolyakov.example.Constants;
-import ru.apolyakov.example.data.AudioFrame;
 import ru.apolyakov.example.model.RTPPacket;
 import ru.apolyakov.example.service.caches.AudioFramesCacheService;
 
@@ -64,22 +62,8 @@ public class KafkaStreamerImpl {
         dataStreamer = ignite.dataStreamer(Constants.Caches.RTP_PACKAGE_STREAMER_CACHE);
         // allow overwriting cache data
         dataStreamer.allowOverwrite(true);
-        dataStreamer.receiver(StreamTransformer.from((e, arg) -> {
-            // Get current count.
-            RTPPacket value = e.getValue();
-            log.info("Transform rtp packet {} from stream {}: size={}",
-                    value.getId(), value.getSynchronizationSourceId(), value.getPayload().length);
-
-            AudioFrame audioFrame = AudioFrame.builder()
-                    .packet(value)
-                    .sid(String.valueOf(value.getSynchronizationSourceId()))
-                    .state(AudioFrame.State.NEW)
-                    .timestamp(new Date(value.getTimestamp()))
-                    .build();
-            AudioFramesCacheService audioFramesCacheServiceProxy = getAudioFramesCacheServiceProxy();
-            audioFramesCacheServiceProxy.append(audioFrame.getSid(), audioFrame);
-            return audioFrame;
-        }));
+        dataStreamer.receiver(StreamTransformer.from(
+            new ru.apolyakov.example.service.streamer.StreamTransformer()));
 
 
         kafkaStreamer.setIgnite(ignite);
@@ -105,9 +89,5 @@ public class KafkaStreamerImpl {
         // stop on shutdown
         kafkaStreamer.stop();
         dataStreamer.close();
-    }
-
-    private AudioFramesCacheService getAudioFramesCacheServiceProxy() {
-        return ignite.services().service(AUDIO_BUFFER_CACHE_SERVICE);
     }
 }

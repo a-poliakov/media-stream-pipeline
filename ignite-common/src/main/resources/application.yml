@@ -1,6 +1,6 @@
 spring:
   application:
-    name: video-processor-service
+    name: audio-processor-service
   main:
     allow-bean-definition-overriding: true
 
@@ -31,7 +31,7 @@ ignite:
     persistence:
       enabled: true
     cache:
-      mode: REPLICATED
+      mode: PARTITIONED
     atomicity:
       mode: TRANSACTIONAL
     backup:

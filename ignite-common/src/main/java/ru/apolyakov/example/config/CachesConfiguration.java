@@ -22,10 +22,11 @@ import static ru.apolyakov.example.Constants.Caches.RTP_PACKAGE_STREAMER_CACHE;
 @Configuration
 public class CachesConfiguration {
     @Bean
-    public CacheConfiguration<String, RTPPacket> packetsStreamerCacheConfiguration(ClusterNodeProperties clusterNodeProperties,
-                                                                                        @Value("${ignite.call_sid_to_call_options.cache.mode}") String groupCacheMode,
-                                                                                        @Value("${ignite.call_sid_to_call_options.atomicity.mode}") String groupCacheAtomicityMode,
-                                                                                        @Qualifier("callSidToCallOptionsBackupFactor") int backupFactor) {
+    public CacheConfiguration<String, RTPPacket> packetsStreamerCacheConfiguration(
+        ClusterNodeProperties clusterNodeProperties,
+        @Value("${ignite.call_sid_to_call_options.cache.mode}") String groupCacheMode,
+        @Value("${ignite.call_sid_to_call_options.atomicity.mode}") String groupCacheAtomicityMode,
+        @Qualifier("callSidToCallOptionsBackupFactor") int backupFactor) {
 
         CacheConfiguration<String, RTPPacket> cacheConfiguration = new CacheConfiguration<>(RTP_PACKAGE_STREAMER_CACHE);
 
@@ -42,12 +43,14 @@ public class CachesConfiguration {
     }
 
     @Bean
-    public CacheConfiguration<String, PriorityQueue<AudioFrame>> streamPacketsStoreCacheConfiguration(ClusterNodeProperties clusterNodeProperties,
-                                                                                                           @Value("${ignite.call_sid_to_call_options.cache.mode}") String groupCacheMode,
-                                                                                                           @Value("${ignite.call_sid_to_call_options.atomicity.mode}") String groupCacheAtomicityMode,
-                                                                                                           @Qualifier("callSidToCallOptionsBackupFactor") int backupFactor) {
+    public CacheConfiguration<String, PriorityQueue<AudioFrame>> streamPacketsStoreCacheConfiguration(
+        ClusterNodeProperties clusterNodeProperties,
+        @Value("${ignite.call_sid_to_call_options.cache.mode}") String groupCacheMode,
+        @Value("${ignite.call_sid_to_call_options.atomicity.mode}") String groupCacheAtomicityMode,
+        @Qualifier("callSidToCallOptionsBackupFactor") int backupFactor) {
 
-        CacheConfiguration<String, PriorityQueue<AudioFrame>> cacheConfiguration = new CacheConfiguration<>(RTP_PACKAGE_STORE_CACHE);
+        CacheConfiguration<String, PriorityQueue<AudioFrame>> cacheConfiguration =
+            new CacheConfiguration<>(RTP_PACKAGE_STORE_CACHE);
 
         cacheConfiguration.setNodeFilter(new IgniteNameFilter(clusterNodeProperties.getServiceType()));
         cacheConfiguration.setCacheMode(CacheMode.valueOf(groupCacheMode));

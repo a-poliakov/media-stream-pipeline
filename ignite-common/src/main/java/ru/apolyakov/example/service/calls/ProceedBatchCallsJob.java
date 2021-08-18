@@ -4,9 +4,12 @@ import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Aggregate data for all calls per day
+ */
 @DisallowConcurrentExecution
-public class ProceedCallsJob implements Job {
-    private static final Logger log = LoggerFactory.getLogger(ProceedCallsJob.class);
+public class ProceedBatchCallsJob implements Job {
+    private static final Logger log = LoggerFactory.getLogger(ProceedBatchCallsJob.class);
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {

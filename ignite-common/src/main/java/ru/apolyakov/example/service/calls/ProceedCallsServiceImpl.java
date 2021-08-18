@@ -63,8 +63,9 @@ public class ProceedCallsServiceImpl implements ProceedCallsService {
     }
 
     public void proceedCalls() {
-        CallOptionsCacheService callOptionsCacheService = getCallOptionsServiceProxy();
-        List<String> callOptions = callOptionsCacheService.getKeys();
+        AudioFramesCacheService audioFramesCacheService = getAudioFramesCacheServiceProxy();
+        // for example all calls but we can filter only calls for last day
+        List<String> callOptions = audioFramesCacheService.getKeys();
         List<Callable<Void>> alls = callOptions
                 .stream()
                 .map(callSid -> ((Callable<Void>) () -> {

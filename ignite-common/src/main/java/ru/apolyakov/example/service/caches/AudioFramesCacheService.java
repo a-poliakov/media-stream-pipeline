@@ -1,5 +1,6 @@
 package ru.apolyakov.example.service.caches;
 
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.ignite.cache.query.ScanQuery;
@@ -74,5 +75,9 @@ public class AudioFramesCacheService extends AbstractCacheService<String, Priori
     @Override
     public void delete(String key) {
         cache.remove(key);
+    }
+
+    public List<String> getKeys() {
+        return Lists.newArrayList();
     }
 }
